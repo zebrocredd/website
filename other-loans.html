@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Other Loans - ZebroCredd</title>
+
+  <!-- Google Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #ffcc00;
+      --text-dark: #111;
+      --text-light: #555;
+      --bg-light: #f9f9f9;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      color: var(--text-dark);
+      background-color: #fff;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* === HERO SECTION === */
+    .hero {
+      height: 70vh;
+      background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.7)),
+                  url("https://images.unsplash.com/photo-1598257006626-48b0c252070d?auto=format&fit=crop&w=1600&q=80")
+                  center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      padding: 0 20px;
+      background-color: #222;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      animation: fadeUp 1s ease forwards;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin-top: 15px;
+      color: #eaeaea;
+      font-size: 1.1rem;
+      animation: fadeUp 1s 0.2s ease forwards;
+    }
+
+    .hero button {
+      margin-top: 35px;
+      background: var(--primary);
+      color: #000;
+      border: none;
+      border-radius: 40px;
+      padding: 14px 42px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .hero button:hover {
+      background: #000;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === SECTIONS === */
+    section {
+      padding: 100px 60px;
+      text-align: center;
+    }
+
+    section h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    section h2::after {
+      content: "";
+      display: block;
+      width: 90px;
+      height: 3px;
+      background: var(--primary);
+      margin: 15px auto 0;
+      border-radius: 5px;
+    }
+
+    section p {
+      color: var(--text-light);
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    /* === BENEFITS === */
+    .benefits {
+      background: var(--bg-light);
+    }
+
+    .benefit-grid {
+      margin-top: 60px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 35px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 40px 25px;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card i {
+      font-size: 42px;
+      color: var(--primary);
+      margin-bottom: 18px;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: var(--text-dark);
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+    }
+
+    /* === TYPES OF OTHER LOANS === */
+    .loan-types {
+      background: #fff;
+    }
+
+    .loan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-top: 60px;
+    }
+
+    .loan-box {
+      background: var(--bg-light);
+      border-left: 5px solid var(--primary);
+      border-radius: 10px;
+      padding: 25px;
+      text-align: left;
+      transition: background 0.3s ease;
+    }
+
+    .loan-box:hover {
+      background: #fff7cc;
+    }
+
+    .loan-box h4 {
+      font-size: 1.15rem;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+
+    .loan-box p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    /* === HOW TO APPLY === */
+    .steps {
+      background: var(--bg-light);
+    }
+
+    .step-list {
+      max-width: 850px;
+      margin: 50px auto 0;
+      text-align: left;
+    }
+
+    .step {
+      background: #fff;
+      border-left: 5px solid var(--primary);
+      padding: 20px 25px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+
+    .step:hover {
+      background: #fff7cc;
+      transform: translateX(4px);
+    }
+
+    /* === FAQ SECTION === */
+    .faq {
+      background: #fff;
+    }
+
+    .faq-container {
+      max-width: 900px;
+      margin: 60px auto 0;
+      text-align: left;
+    }
+
+    .faq-item {
+      background: var(--bg-light);
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .faq-question {
+      padding: 20px 25px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 25px;
+      color: var(--text-light);
+      transition: all 0.4s ease;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      padding: 15px 25px 25px;
+    }
+
+    .faq-item.active .faq-question i {
+      transform: rotate(180deg);
+    }
+
+    .faq-question i {
+      transition: transform 0.3s ease;
+      color: var(--primary);
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 992px) {
+      section { padding: 80px 35px; }
+      .hero h1 { font-size: 2.5rem; }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 70px 25px; }
+      .hero h1 { font-size: 2rem; }
+      .hero p { font-size: 1rem; }
+      .hero button { padding: 12px 30px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HERO -->
+  <header class="hero" aria-label="Other Loans Introduction">
+    <h1>Explore Our Other Loans</h1>
+    <p>From travel dreams to medical needs — ZebroCredd offers flexible loans designed to make life’s goals achievable.</p>
+    <button type="button" onclick="window.location.href='apply.html'">Apply Now</button>
+  </header>
+
+  <!-- BENEFITS -->
+  <section class="benefits" aria-labelledby="benefits-heading">
+    <h2 id="benefits-heading">Why Choose Our Other Loans?</h2>
+    <div class="benefit-grid">
+      <div class="card"><i class="fas fa-bolt"></i><h3>Quick Disbursal</h3><p>Instant approvals and fast fund transfers when you need them most.</p></div>
+      <div class="card"><i class="fas fa-hand-holding-usd"></i><h3>Flexible Usage</h3><p>Use the funds for travel, weddings, or emergencies — your choice.</p></div>
+      <div class="card"><i class="fas fa-percent"></i><h3>Low Interest Rates</h3><p>Affordable rates tailored to your profile with easy EMIs.</p></div>
+      <div class="card"><i class="fas fa-file-alt"></i><h3>Minimal Documentation</h3><p>Simple, paper-light, and fully digital process.</p></div>
+    </div>
+  </section>
+
+  <!-- TYPES OF OTHER LOANS -->
+  <section class="loan-types" aria-labelledby="loan-types-heading">
+    <h2 id="loan-types-heading">Types of Other Loans We Offer</h2>
+    <div class="loan-grid">
+      <div class="loan-box"><h4>Travel Loans</h4><p>Finance your adventures easily with convenient EMIs.</p></div>
+      <div class="loan-box"><h4>Wedding Loans</h4><p>Plan your perfect day without compromising on dreams.</p></div>
+      <div class="loan-box"><h4>Medical Loans</h4><p>Quick access to funds for emergency treatments or care.</p></div>
+      <div class="loan-box"><h4>Home Renovation Loans</h4><p>Give your home a new look with easy financing.</p></div>
+      <div class="loan-box"><h4>Festival or Holiday Loans</h4><p>Enjoy special moments with quick, flexible financing.</p></div>
+    </div>
+  </section>
+
+  <!-- HOW TO APPLY -->
+  <section class="steps" aria-labelledby="steps-heading">
+    <h2 id="steps-heading">How to Apply</h2>
+    <div class="step-list">
+      <div class="step"><strong>Step 1:</strong> Choose your loan amount and purpose.</div>
+      <div class="step"><strong>Step 2:</strong> Fill in the simple online form.</div>
+      <div class="step"><strong>Step 3:</strong> Upload KYC and income documents.</div>
+      <div class="step"><strong>Step 4:</strong> Receive approval and funds in your bank.</div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">Frequently Asked Questions</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">What is the maximum loan amount I can get?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">You can apply for a loan amount ranging from ₹10,000 up to ₹10 lakhs depending on your eligibility and repayment capacity.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">How long does it take to get loan approval?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Most applications are approved within 24 hours, and funds are disbursed immediately after verification.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Do I need to provide collateral?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">No. Our personal and other loans are completely unsecured — no collateral or guarantor required.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Can I prepay or foreclose my loan?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">Yes, you can prepay your loan anytime after 6 months. Minimal foreclosure charges may apply as per terms.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">What documents are required?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-answer">You’ll need to submit your PAN card, Aadhaar, address proof, and income documents such as salary slips or bank statements.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JS for FAQ -->
+  <script>
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('active');
+        faqItems.forEach(other => {
+          if (other !== item) other.classList.remove('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
