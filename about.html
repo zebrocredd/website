@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZebroCredd</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body { background: #f9f9f9; }
+
+    /* ✅ Header */
+    header {
+      width: 100%;
+      background: #000;
+      color: white;
+      padding: 8px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-container img {
+      height: 55px;
+      width: auto;
+      border-radius: 8px;
+    }
+    .logo-container h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #ffcc00;
+      letter-spacing: 0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li { position: relative; }
+    nav ul li a {
+      text-decoration: none;
+      color: #f0f0f0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      padding: 5px 6px;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover { color: #ffcc00; }
+
+    /* ✅ Remove hover underline from Apply Now */
+    nav ul li:not(.apply-btn) a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0%;
+      height: 1.5px;
+      background: #ffcc00;
+      transition: width 0.3s ease;
+    }
+    nav ul li:not(.apply-btn) a:hover::after { width: 100%; }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #111;
+      min-width: 200px;
+      border-radius: 6px;
+      overflow: hidden;
+      z-index: 999;
+    }
+    .dropdown li a {
+      display: block;
+      padding: 10px 15px;
+      color: #eee;
+      font-size: 0.9rem;
+    }
+    .dropdown li a:hover { background: #222; color: #ffcc00; }
+    nav ul li:hover .dropdown { display: block; }
+
+    /* ✅ Apply Button */
+    .apply-btn a {
+      background: rgba(255,204,0,0.15);
+      border: 1px solid #ffcc00;
+      color: #ffcc00 !important;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .apply-btn a:hover {
+      background: #ffcc00;
+      color: #000 !important;
+      transform: scale(1.05);
+    }
+
+    /* ✅ Mobile */
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .hamburger span {
+      width: 22px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+    }
+    @media (max-width: 900px) {
+      nav ul {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #000;
+        flex-direction: column;
+        width: 230px;
+        display: none;
+        padding: 20px;
+      }
+      nav ul.show { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* ✅ Footer */
+    footer {
+      background: #000;
+      color: #fff;
+      padding: 60px 8%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 50px;
+    }
+    .footer-logo {
+      max-width: 250px;
+    }
+    .footer-logo img {
+      width: 180px;
+      height: auto;
+      border-radius: 12px;
+    }
+    .social-icons {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: #ffcc00;
+      border-radius: 50%;
+      color: #000;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
+    .social-icons a:hover {
+      transform: scale(1.15);
+      background: #ff4e50;
+      color: #fff;
+    }
+
+    .footer-links h3, .footer-contact h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #ffcc00;
+    }
+    .footer-links ul {
+      list-style: none;
+    }
+    .footer-links ul li {
+      margin: 8px 0;
+    }
+    .footer-links ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+    .footer-links ul li a:hover {
+      color: #fff;
+      padding-left: 6px;
+    }
+    .footer-contact p {
+      margin: 8px 0;
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    /* ✅ Highlighted Apply Now in Footer */
+    .footer-apply {
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .footer-apply a {
+      background: #ffcc00;
+      color: #000;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s ease;
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+    }
+    .footer-apply a:hover {
+      transform: scale(1.08);
+      background: #ffd633;
+      box-shadow: 0 0 18px rgba(255, 204, 0, 0.9);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px;
+      background: #111;
+      font-size: 0.85rem;
+      color: #bbb;
+      margin-top: 30px;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- ✅ Header -->
+  <header>
+    <div class="logo-container">
+      <img src="https://zebrocredd.github.io/Docs/zebrocredd%20logo.jpg" alt="ZebroCredd Logo">
+      <h1>ZebroCredd</h1>
+    </div>
+    <nav>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+      <ul id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li>
+          <a href="#">Loans ▾</a>
+          <ul class="dropdown">
+            <li><a href="business-loans.html">Business Loans</a></li>
+            <li><a href="education-loans.html">Education Loans</a></li>
+            <li><a href="personal-loans.html">Personal Loans</a></li>
+            <li><a href="property-loans.html">Property Loans</a></li>
+            <li><a href="lap-loans.html">LAP Loans</a></li>
+            <li><a href="vehicle-loans.html">Vehicle Loans</a></li>
+            <li><a href="other-loans.html">Other Loans</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">Insurance ▾</a>
+          <ul class="dropdown">
+            <li><a href="life-insurance.html">Life Insurance</a></li>
+            <li><a href="vehicle-insurance.html">Vehicle Insurance</a></li>
+            <li><a href="other-insurance.html">Other Insurance</a></li>
+          </ul>
+        </li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li class="apply-btn"><a href="apply.html">Apply Now</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us - Zebrocredd</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  * { box-sizing: border-box; scroll-behavior: smooth; }
+  body { margin: 0; font-family: 'Poppins', sans-serif; background: #fff; color: #222; }
+
+  /* ===== HERO SECTION ===== */
+  .hero {
+    height: 56vh; /* reduced by 30% */
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
+      url('https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1600&q=80')
+      center/cover no-repeat;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    width: 180%;
+    height: 180%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,204,0,0.12), transparent 70%);
+    animation: floatGlow 8s ease-in-out infinite alternate;
+    z-index: 0;
+  }
+  @keyframes floatGlow {
+    0% { transform: translate(-30px, -30px); }
+    100% { transform: translate(30px, 30px); }
+  }
+  .hero h1, .hero p {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(40px);
+    animation-fill-mode: forwards;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    animation: fadeUp 1s 0.3s ease forwards;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    max-width: 750px;
+    line-height: 1.7;
+    color: #f1f1f1;
+    margin-top: 10px;
+    animation: fadeUp 1s 0.6s ease forwards;
+  }
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== ABOUT ===== */
+  .about {
+    text-align: center;
+    padding: 90px 60px;
+  }
+  .about h2 {
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+    position: relative;
+  }
+  .about h2::after {
+    content: "";
+    width: 80px;
+    height: 3px;
+    background: #ffcc00;
+    display: block;
+    margin: 15px auto 0;
+  }
+  .about p {
+    max-width: 950px;
+    margin: 20px auto 0;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #555;
+  }
+
+  /* ===== MISSION ===== */
+  .mission {
+    background: #f9f9f9;
+    padding: 90px 60px;
+    text-align: center;
+  }
+  .mission h2 {
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+  }
+  .mission h2::after {
+    content: "";
+    width: 70px;
+    height: 3px;
+    background: #ffcc00;
+    display: block;
+    margin: 15px auto;
+  }
+  .mission-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  .mission-box {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 40px 30px;
+    width: 320px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .mission-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+  .mission-box i {
+    font-size: 45px;
+    color: #ffcc00;
+    margin-bottom: 20px;
+    transition: 0.3s;
+  }
+  .mission-box:hover i { transform: scale(1.2); }
+  .mission-box h3 { font-size: 1.3rem; margin-bottom: 12px; color: #222; }
+  .mission-box p { font-size: 0.95rem; color: #555; }
+
+  /* ===== WHY CHOOSE US ===== */
+  .why {
+    padding: 90px 60px;
+    text-align: center;
+  }
+  .why h2 {
+    font-size: 2.6rem;
+    margin-bottom: 25px;
+  }
+  .why h2::after {
+    content: "";
+    width: 70px;
+    height: 3px;
+    background: #ffcc00;
+    display: block;
+    margin: 15px auto;
+  }
+  .why-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 35px;
+    margin-top: 50px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 35px 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+  .card i {
+    font-size: 45px;
+    color: #ffcc00;
+    margin-bottom: 20px;
+    transition: 0.3s;
+  }
+  .card:hover i { transform: scale(1.2); }
+  .card h3 { font-size: 1.25rem; margin-bottom: 12px; color: #222; }
+  .card p { color: #555; font-size: 0.95rem; }
+
+  /* ===== FAQ SECTION ===== */
+  .faq {
+    background: #f9f9f9;
+    padding: 90px 60px;
+    text-align: center;
+  }
+  .faq h2 {
+    font-size: 2.6rem;
+    margin-bottom: 25px;
+  }
+  .faq h2::after {
+    content: "";
+    width: 70px;
+    height: 3px;
+    background: #ffcc00;
+    display: block;
+    margin: 15px auto;
+  }
+  .faq-container {
+    max-width: 900px;
+    margin: 40px auto 0;
+    text-align: left;
+  }
+  .faq-item {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: 0.3s ease;
+  }
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 20px 25px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    color: #333;
+    position: relative;
+  }
+  .faq-question::after {
+    content: "\f107";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 25px;
+    transition: transform 0.3s ease;
+  }
+  .faq-item.active .faq-question::after {
+    transform: rotate(180deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 25px;
+  }
+  .faq-item.active .faq-answer {
+    max-height: 200px;
+    padding-bottom: 20px;
+  }
+  .faq-answer p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:768px){
+    .hero h1 { font-size: 2.3rem; }
+    .about h2, .mission h2, .why h2, .faq h2 { font-size: 2rem; }
+    section { padding: 70px 25px; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>About Zebrocredd</h1>
+    <p>Building trust and transforming financial possibilities — one customer at a time.</p>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about">
+    <h2>Who We Are</h2>
+    <p>
+      <strong>Zebrocredd</strong> is a digital-first platform designed to simplify access to financial services. 
+      We combine innovative technology with personalized support to deliver loans and insurance that truly empower people.
+      Our vision is to build a world where financial access is fair, transparent, and within everyone’s reach.
+    </p>
+  </section>
+
+  <!-- MISSION -->
+  <section class="mission">
+    <h2>Our Mission & Vision</h2>
+    <div class="mission-content">
+      <div class="mission-box">
+        <i class="fas fa-bullseye"></i>
+        <h3>Our Mission</h3>
+        <p>To make finance simple, fast, and accessible for every individual and business through trust and technology.</p>
+      </div>
+      <div class="mission-box">
+        <i class="fas fa-eye"></i>
+        <h3>Our Vision</h3>
+        <p>To be a leader in digital finance solutions that empower people to achieve their dreams confidently.</p>
+      </div>
+      <div class="mission-box">
+        <i class="fas fa-users"></i>
+        <h3>Our Approach</h3>
+        <p>We focus on customer-first solutions that deliver clarity, convenience, and confidence at every step.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why">
+    <h2>Why Choose Zebrocredd</h2>
+    <div class="why-cards">
+      <div class="card">
+        <i class="fas fa-clock"></i>
+        <h3>Quick Approvals</h3>
+        <p>Experience seamless loan processing with faster approvals and minimal documentation.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Trusted & Secure</h3>
+        <p>We maintain top-notch security and transparency to keep your financial data safe.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-coins"></i>
+        <h3>Flexible Options</h3>
+        <p>Our range of financial solutions is tailored to match your goals and comfort level.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-headset"></i>
+        <h3>Dedicated Support</h3>
+        <p>Our team ensures personal guidance and 24/7 assistance whenever you need it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question">How can I apply for a loan on Zebrocredd?</button>
+        <div class="faq-answer"><p>Simply choose your loan type, fill in the online form, and upload the required documents. Our team processes most applications within 24 hours.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Is Zebrocredd a government-registered company?</button>
+        <div class="faq-answer"><p>Yes, Zebrocredd operates as a legally registered financial service provider following all applicable RBI guidelines.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Do you offer insurance services?</button>
+        <div class="faq-answer"><p>Absolutely! We provide health, life, home, vehicle, and travel insurance options for individual and family protection.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Is my personal information safe?</button>
+        <div class="faq-answer"><p>Yes, all your data is encrypted and handled under strict security measures to ensure complete confidentiality.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Animate sections on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.mission-box, .card').forEach(el => observer.observe(el));
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+  </script>
+
+</body>
+</html>
+
+  </main>
+
+  <!-- ✅ Footer -->
+  <footer>
+    <div class="footer-logo">
+      <img src="https://zebrocredd.github.io/Docs/zebrocredd%20logo.jpg" alt="ZebroCredd Logo">
+      <div class="social-icons">
+        <a href="https://www.facebook.com/share/1BYHHL6vXH/"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/zebrocredd?igsh=MWYyc29oMnliY2Z3OQ=="><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/+919855541715"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h3>Useful Links</h3>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="education-loans.html">Education Loan</a></li>
+        <li><a href="vehicle-loans.html">Vehicle Loan</a></li>
+        <li><a href="lap-loans.html">LAP Loan</a></li>
+        <li><a href="business-loans.html">Business Loan</a></li>
+        <li><a href="life-insurance.html">Life Insurance</a></li>
+        <li><a href="vehicle-insurance.html">Vehicle Insurance</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h3>Contact Us</h3>
+      <p><i class="fas fa-phone"></i> +91 98555 41715</p>
+      <p><i class="fas fa-envelope"></i> info@zebrocredd.in</p>
+      <p><i class="fas fa-map-marker-alt"></i> Dwarka Pillar,</p>
+      </i> Near SBI Bank, Delhi(110037), INDIA</p>
+    </div>
+
+    <!-- ✅ Highlighted Apply Now -->
+    <div class="footer-apply">
+      <a href="apply.html">Apply Now</a>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    © 2025 ZebroCredd. All Rights Reserved.
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("show");
+    }
+  </script>
+</body>
+</html>

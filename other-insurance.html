@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZebroCredd</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body { background: #f9f9f9; }
+
+    /* ✅ Header */
+    header {
+      width: 100%;
+      background: #000;
+      color: white;
+      padding: 8px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-container img {
+      height: 55px;
+      width: auto;
+      border-radius: 8px;
+    }
+    .logo-container h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #ffcc00;
+      letter-spacing: 0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li { position: relative; }
+    nav ul li a {
+      text-decoration: none;
+      color: #f0f0f0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      padding: 5px 6px;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover { color: #ffcc00; }
+
+    /* ✅ Remove hover underline from Apply Now */
+    nav ul li:not(.apply-btn) a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0%;
+      height: 1.5px;
+      background: #ffcc00;
+      transition: width 0.3s ease;
+    }
+    nav ul li:not(.apply-btn) a:hover::after { width: 100%; }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #111;
+      min-width: 200px;
+      border-radius: 6px;
+      overflow: hidden;
+      z-index: 999;
+    }
+    .dropdown li a {
+      display: block;
+      padding: 10px 15px;
+      color: #eee;
+      font-size: 0.9rem;
+    }
+    .dropdown li a:hover { background: #222; color: #ffcc00; }
+    nav ul li:hover .dropdown { display: block; }
+
+    /* ✅ Apply Button */
+    .apply-btn a {
+      background: rgba(255,204,0,0.15);
+      border: 1px solid #ffcc00;
+      color: #ffcc00 !important;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .apply-btn a:hover {
+      background: #ffcc00;
+      color: #000 !important;
+      transform: scale(1.05);
+    }
+
+    /* ✅ Mobile */
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .hamburger span {
+      width: 22px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+    }
+    @media (max-width: 900px) {
+      nav ul {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #000;
+        flex-direction: column;
+        width: 230px;
+        display: none;
+        padding: 20px;
+      }
+      nav ul.show { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* ✅ Footer */
+    footer {
+      background: #000;
+      color: #fff;
+      padding: 60px 8%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 50px;
+    }
+    .footer-logo {
+      max-width: 250px;
+    }
+    .footer-logo img {
+      width: 180px;
+      height: auto;
+      border-radius: 12px;
+    }
+    .social-icons {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: #ffcc00;
+      border-radius: 50%;
+      color: #000;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
+    .social-icons a:hover {
+      transform: scale(1.15);
+      background: #ff4e50;
+      color: #fff;
+    }
+
+    .footer-links h3, .footer-contact h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #ffcc00;
+    }
+    .footer-links ul {
+      list-style: none;
+    }
+    .footer-links ul li {
+      margin: 8px 0;
+    }
+    .footer-links ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+    .footer-links ul li a:hover {
+      color: #fff;
+      padding-left: 6px;
+    }
+    .footer-contact p {
+      margin: 8px 0;
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    /* ✅ Highlighted Apply Now in Footer */
+    .footer-apply {
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .footer-apply a {
+      background: #ffcc00;
+      color: #000;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s ease;
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+    }
+    .footer-apply a:hover {
+      transform: scale(1.08);
+      background: #ffd633;
+      box-shadow: 0 0 18px rgba(255, 204, 0, 0.9);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px;
+      background: #111;
+      font-size: 0.85rem;
+      color: #bbb;
+      margin-top: 30px;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- ✅ Header -->
+  <header>
+    <div class="logo-container">
+      <img src="https://zebrocredd.github.io/Docs/zebrocredd%20logo.jpg" alt="ZebroCredd Logo">
+      <h1>ZebroCredd</h1>
+    </div>
+    <nav>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+      <ul id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li>
+          <a href="#">Loans ▾</a>
+          <ul class="dropdown">
+            <li><a href="business-loans.html">Business Loans</a></li>
+            <li><a href="education-loans.html">Education Loans</a></li>
+            <li><a href="personal-loans.html">Personal Loans</a></li>
+            <li><a href="property-loans.html">Property Loans</a></li>
+            <li><a href="lap-loans.html">LAP Loans</a></li>
+            <li><a href="vehicle-loans.html">Vehicle Loans</a></li>
+            <li><a href="other-loans.html">Other Loans</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">Insurance ▾</a>
+          <ul class="dropdown">
+            <li><a href="life-insurance.html">Life Insurance</a></li>
+            <li><a href="vehicle-insurance.html">Vehicle Insurance</a></li>
+            <li><a href="other-insurance.html">Other Insurance</a></li>
+          </ul>
+        </li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li class="apply-btn"><a href="apply.html">Apply Now</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Other Insurances - Zebrocredd</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  * { box-sizing: border-box; scroll-behavior: smooth; }
+  body { margin: 0; font-family: 'Poppins', sans-serif; background: #fff; color: #222; }
+
+  /* ===== HERO ===== */
+  .hero {
+    height: 68vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.65)),
+      url('https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=1600&q=80')
+      center/cover no-repeat;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 20px;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    z-index: 1;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    line-height: 1.8;
+    color: #f5f5f5;
+    z-index: 1;
+  }
+  .btn-primary {
+    background: #ffcc00;
+    color: #111;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 20px;
+    transition: 0.3s;
+  }
+  .btn-primary:hover { background: #ffd633; }
+
+  /* ===== INTRO ===== */
+  .intro {
+    text-align: center;
+    padding: 80px 40px;
+  }
+  .intro h2 {
+    font-size: 2.4rem;
+    margin-bottom: 25px;
+  }
+  .intro h2::after {
+    content: "";
+    width: 70px;
+    height: 3px;
+    background: #ffcc00;
+    display: block;
+    margin: 15px auto;
+  }
+  .intro p {
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+    color: #555;
+    font-size: 1.05rem;
+  }
+
+  /* ===== TYPES ===== */
+  .types {
+    background: #f9f9f9;
+    padding: 80px 40px;
+    text-align: center;
+  }
+  .types h2 {
+    font-size: 2rem; /* Smaller heading */
+    margin-bottom: 25px;
+  }
+  .types h2::after {
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: #ffcc00;
+    display: block;
+    margin: 15px auto;
+  }
+  .type-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); /* fits better */
+    gap: 25px;
+    margin-top: 40px;
+  }
+  .type-box {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    padding: 30px 20px;
+    transition: 0.3s ease;
+  }
+  .type-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  .type-box i {
+    font-size: 38px;
+    color: #ffcc00;
+    margin-bottom: 15px;
+  }
+  .type-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .type-box p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ===== BENEFITS ===== */
+  .benefits {
+    padding: 80px 40px;
+    text-align: center;
+  }
+  .benefits h2 {
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+  }
+  .benefit-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    padding: 30px 20px;
+    transition: 0.3s ease;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  .card i {
+    font-size: 38px;
+    color: #ffcc00;
+    margin-bottom: 15px;
+  }
+  .card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  .card p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* ===== FAQ ===== */
+  .faq {
+    background: #f9f9f9;
+    padding: 80px 40px;
+    text-align: center;
+  }
+  .faq h2 {
+    font-size: 2.2rem;
+    margin-bottom: 25px;
+  }
+  .faq-container {
+    max-width: 850px;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .faq-item {
+    background: #fff;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    overflow: hidden;
+  }
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 18px 22px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #333;
+    text-align: left;
+    position: relative;
+  }
+  .faq-question::after {
+    content: "\f107";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 20px;
+    transition: transform 0.3s;
+  }
+  .faq-item.active .faq-question::after {
+    transform: rotate(180deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    padding: 0 22px;
+  }
+  .faq-item.active .faq-answer {
+    max-height: 200px;
+    padding-bottom: 15px;
+  }
+  .faq-answer p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  @media (max-width:768px){
+    .hero h1 { font-size: 2.2rem; }
+    .types h2, .benefits h2, .faq h2 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Other Insurances by Zebrocredd</h1>
+    <p>From health and home to travel and business — Zebrocredd brings you comprehensive coverage for every part of your life.</p>
+    <a class="btn-primary" href="apply.html">Apply Now</a>
+  </section>
+
+  <!-- INTRO -->
+  <section class="intro">
+    <h2>Complete Coverage, Complete Confidence</h2>
+    <p>
+      At <strong>Zebrocredd</strong>, we know your protection needs go beyond one category.  
+      That’s why we provide an integrated range of insurance plans to safeguard your health, home, travel, and business —  
+      with quick claims, simple renewals, and expert support.
+    </p>
+  </section>
+
+  <!-- TYPES -->
+  <section class="types">
+    <h2>Our Major Insurance Categories</h2>
+    <div class="type-boxes">
+      <div class="type-box">
+        <i class="fas fa-heartbeat"></i>
+        <h3>Health Insurance</h3>
+        <p>Coverage for hospitalization, critical illness, and pre/post-care with cashless options at partner hospitals.</p>
+      </div>
+      <div class="type-box">
+        <i class="fas fa-house-chimney"></i>
+        <h3>Home Insurance</h3>
+        <p>Protect your home and valuable belongings against fire, theft, or natural disasters.</p>
+      </div>
+      <div class="type-box">
+        <i class="fas fa-plane-departure"></i>
+        <h3>Travel Insurance</h3>
+        <p>Travel confidently with coverage for medical emergencies, trip cancellations, and luggage loss.</p>
+      </div>
+      <div class="type-box">
+        <i class="fas fa-briefcase"></i>
+        <h3>Business Insurance</h3>
+        <p>Secure your company against liability, property loss, and operational interruptions with tailored plans.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="benefits">
+    <h2>Why Choose Zebrocredd</h2>
+    <div class="benefit-cards">
+      <div class="card">
+        <i class="fas fa-bolt"></i>
+        <h3>Instant Policy Activation</h3>
+        <p>Get your policy instantly after a quick digital verification process.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-user-shield"></i>
+        <h3>IRDAI-Approved Partners</h3>
+        <p>All our insurance partners are trusted, verified, and fully compliant with regulatory standards.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-hand-holding-heart"></i>
+        <h3>Tailored Plans</h3>
+        <p>We offer plans that suit individuals, families, and businesses for every budget.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-headset"></i>
+        <h3>24×7 Customer Support</h3>
+        <p>Get expert help anytime for claims, renewals, or plan upgrades.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-container">
+      <div class="faq-item">
+        <button class="faq-question">Can I buy multiple insurances together?</button>
+        <div class="faq-answer"><p>Yes, you can combine plans like Health + Home or Travel + Business for added benefits and discounts.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">How long does policy approval take?</button>
+        <div class="faq-answer"><p>Most plans are approved instantly. Some specialized covers may take up to 24 hours for verification.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Are pre-existing conditions covered?</button>
+        <div class="faq-answer"><p>Yes, after a specific waiting period as mentioned in the policy terms.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">Can I cancel my policy online?</button>
+        <div class="faq-answer"><p>Yes, cancellations and renewals can be done through your Zebrocredd dashboard anytime.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => btn.parentElement.classList.toggle('active'));
+    });
+  </script>
+
+</body>
+</html>
+
+  </main>
+
+  <!-- ✅ Footer -->
+  <footer>
+    <div class="footer-logo">
+      <img src="https://zebrocredd.github.io/Docs/zebrocredd%20logo.jpg" alt="ZebroCredd Logo">
+      <div class="social-icons">
+        <a href="https://www.facebook.com/share/1BYHHL6vXH/"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/zebrocredd?igsh=MWYyc29oMnliY2Z3OQ=="><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/+919855541715"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h3>Useful Links</h3>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="education-loans.html">Education Loan</a></li>
+        <li><a href="vehicle-loans.html">Vehicle Loan</a></li>
+        <li><a href="lap-loans.html">LAP Loan</a></li>
+        <li><a href="business-loans.html">Business Loan</a></li>
+        <li><a href="life-insurance.html">Life Insurance</a></li>
+        <li><a href="vehicle-insurance.html">Vehicle Insurance</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h3>Contact Us</h3>
+      <p><i class="fas fa-phone"></i> +91 98555 41715</p>
+      <p><i class="fas fa-envelope"></i> info@zebrocredd.in</p>
+      <p><i class="fas fa-map-marker-alt"></i> Dwarka Pillar,</p>
+      </i> Near SBI Bank, Delhi(110037), INDIA</p>
+    </div>
+
+    <!-- ✅ Highlighted Apply Now -->
+    <div class="footer-apply">
+      <a href="apply.html">Apply Now</a>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    © 2025 ZebroCredd. All Rights Reserved.
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("show");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZebroCredd</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body { background: #f9f9f9; }
+
+    /* ✅ Header */
+    header {
+      width: 100%;
+      background: #000;
+      color: white;
+      padding: 8px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-container img {
+      height: 55px;
+      width: auto;
+      border-radius: 8px;
+    }
+    .logo-container h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #ffcc00;
+      letter-spacing: 0.5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li { position: relative; }
+    nav ul li a {
+      text-decoration: none;
+      color: #f0f0f0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.4px;
+      padding: 5px 6px;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover { color: #ffcc00; }
+
+    /* ✅ Remove hover underline from Apply Now */
+    nav ul li:not(.apply-btn) a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0%;
+      height: 1.5px;
+      background: #ffcc00;
+      transition: width 0.3s ease;
+    }
+    nav ul li:not(.apply-btn) a:hover::after { width: 100%; }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: #111;
+      min-width: 200px;
+      border-radius: 6px;
+      overflow: hidden;
+      z-index: 999;
+    }
+    .dropdown li a {
+      display: block;
+      padding: 10px 15px;
+      color: #eee;
+      font-size: 0.9rem;
+    }
+    .dropdown li a:hover { background: #222; color: #ffcc00; }
+    nav ul li:hover .dropdown { display: block; }
+
+    /* ✅ Apply Button */
+    .apply-btn a {
+      background: rgba(255,204,0,0.15);
+      border: 1px solid #ffcc00;
+      color: #ffcc00 !important;
+      padding: 8px 18px;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .apply-btn a:hover {
+      background: #ffcc00;
+      color: #000 !important;
+      transform: scale(1.05);
+    }
+
+    /* ✅ Mobile */
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .hamburger span {
+      width: 22px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+    }
+    @media (max-width: 900px) {
+      nav ul {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #000;
+        flex-direction: column;
+        width: 230px;
+        display: none;
+        padding: 20px;
+      }
+      nav ul.show { display: flex; }
+      .hamburger { display: flex; }
+    }
+
+    /* ✅ Footer */
+    footer {
+      background: #000;
+      color: #fff;
+      padding: 60px 8%;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 50px;
+    }
+    .footer-logo {
+      max-width: 250px;
+    }
+    .footer-logo img {
+      width: 180px;
+      height: auto;
+      border-radius: 12px;
+    }
+    .social-icons {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+    }
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: #ffcc00;
+      border-radius: 50%;
+      color: #000;
+      font-size: 1.2rem;
+      transition: 0.3s;
+    }
+    .social-icons a:hover {
+      transform: scale(1.15);
+      background: #ff4e50;
+      color: #fff;
+    }
+
+    .footer-links h3, .footer-contact h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: #ffcc00;
+    }
+    .footer-links ul {
+      list-style: none;
+    }
+    .footer-links ul li {
+      margin: 8px 0;
+    }
+    .footer-links ul li a {
+      color: #ccc;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: 0.3s;
+    }
+    .footer-links ul li a:hover {
+      color: #fff;
+      padding-left: 6px;
+    }
+    .footer-contact p {
+      margin: 8px 0;
+      font-size: 0.95rem;
+      color: #ddd;
+    }
+
+    /* ✅ Highlighted Apply Now in Footer */
+    .footer-apply {
+      width: 100%;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .footer-apply a {
+      background: #ffcc00;
+      color: #000;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s ease;
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.6);
+    }
+    .footer-apply a:hover {
+      transform: scale(1.08);
+      background: #ffd633;
+      box-shadow: 0 0 18px rgba(255, 204, 0, 0.9);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding: 15px;
+      background: #111;
+      font-size: 0.85rem;
+      color: #bbb;
+      margin-top: 30px;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- ✅ Header -->
+  <header>
+    <div class="logo-container">
+      <img src="https://zebrocredd.github.io/Docs/zebrocredd%20logo.jpg" alt="ZebroCredd Logo">
+      <h1>ZebroCredd</h1>
+    </div>
+    <nav>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+      <ul id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li>
+          <a href="#">Loans ▾</a>
+          <ul class="dropdown">
+            <li><a href="business-loans.html">Business Loans</a></li>
+            <li><a href="education-loans.html">Education Loans</a></li>
+            <li><a href="personal-loans.html">Personal Loans</a></li>
+            <li><a href="property-loans.html">Property Loans</a></li>
+            <li><a href="lap-loans.html">LAP Loans</a></li>
+            <li><a href="vehicle-loans.html">Vehicle Loans</a></li>
+            <li><a href="other-loans.html">Other Loans</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="#">Insurance ▾</a>
+          <ul class="dropdown">
+            <li><a href="life-insurance.html">Life Insurance</a></li>
+            <li><a href="vehicle-insurance.html">Vehicle Insurance</a></li>
+            <li><a href="other-insurance.html">Other Insurance</a></li>
+          </ul>
+        </li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li class="apply-btn"><a href="apply.html">Apply Now</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us - Zebrocredd</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  * { box-sizing: border-box; scroll-behavior: smooth; }
+  body { margin: 0; font-family: 'Poppins', sans-serif; background: #fff; color: #222; }
+
+  /* ===== HERO SECTION ===== */
+  .hero {
+    height: 56vh; /* consistent with About page */
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
+      url('https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=1600&q=80')
+      center/cover no-repeat;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    width: 180%;
+    height: 180%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,204,0,0.12), transparent 70%);
+    animation: floatGlow 8s ease-in-out infinite alternate;
+    z-index: 0;
+  }
+  @keyframes floatGlow {
+    0% { transform: translate(-30px, -30px); }
+    100% { transform: translate(30px, 30px); }
+  }
+  .hero h1, .hero p {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(40px);
+    animation-fill-mode: forwards;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    animation: fadeUp 1s 0.3s ease forwards;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    max-width: 750px;
+    line-height: 1.7;
+    color: #f1f1f1;
+    margin-top: 10px;
+    animation: fadeUp 1s 0.6s ease forwards;
+  }
+  @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== CONTACT INFO ===== */
+  .contact-info {
+    text-align: center;
+    padding: 90px 60px;
+  }
+  .contact-info h2 {
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+    position: relative;
+  }
+  .contact-info h2::after {
+    content: "";
+    width: 80px;
+    height: 3px;
+    background: #ffcc00;
+    display: block;
+    margin: 15px auto 0;
+  }
+  .contact-info p {
+    max-width: 950px;
+    margin: 20px auto 40px;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #555;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+  .info-box {
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 40px 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  .info-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  }
+  .info-box i {
+    font-size: 45px;
+    color: #ffcc00;
+    margin-bottom: 20px;
+  }
+  .info-box h3 {
+    font-size: 1.25rem;
+    color: #222;
+    margin-bottom: 10px;
+  }
+  .info-box p {
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  /* ===== CONTACT FORM ===== */
+  .contact-form {
+    background: #f9f9f9;
+    padding: 90px 60px;
+    text-align: center;
+  }
+  .contact-form h2 {
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+  }
+  .contact-form h2::after {
+    content: "";
+    width: 70px;
+    height: 3px;
+    background: #ffcc00;
+    display: block;
+    margin: 15px auto;
+  }
+  form {
+    max-width: 700px;
+    margin: 50px auto 0;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    padding: 40px;
+    text-align: left;
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  input, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s;
+  }
+  input:focus, textarea:focus {
+    border-color: #ffcc00;
+    box-shadow: 0 0 0 3px rgba(255,204,0,0.15);
+    outline: none;
+  }
+  textarea { resize: vertical; height: 130px; }
+
+  button {
+    display: inline-block;
+    background: #ffcc00;
+    color: #000;
+    border: none;
+    border-radius: 30px;
+    padding: 12px 35px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  button:hover {
+    background: #000;
+    color: #fff;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width:768px){
+    .hero h1 { font-size: 2.3rem; }
+    .contact-info h2, .contact-form h2 { font-size: 2rem; }
+    section { padding: 70px 25px; }
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Contact Zebrocredd</h1>
+    <p>We’re here to listen, assist, and guide you at every step of your financial journey.</p>
+  </section>
+
+  <!-- CONTACT INFO -->
+  <section class="contact-info">
+    <h2>Get in Touch</h2>
+    <p>
+      Whether you’re looking for quick loan assistance, insurance information, or business partnerships, 
+      our dedicated support team is here to help. Reach out via phone, email, or by filling out the form below.
+    </p>
+
+    <div class="info-grid">
+      <div class="info-box">
+        <i class="fas fa-phone"></i>
+        <h3>Call Us</h3>
+        <p>+91 98765 43210</p>
+      </div>
+      <div class="info-box">
+        <i class="fas fa-envelope"></i>
+        <h3>Email</h3>
+        <p>support@zebrocredd.com</p>
+      </div>
+      <div class="info-box">
+        <i class="fas fa-map-marker-alt"></i>
+        <h3>Visit Us</h3>
+        <p>2nd Floor, Skyline Plaza, Mumbai, India</p>
+      </div>
+      <div class="info-box">
+        <i class="fas fa-clock"></i>
+        <h3>Working Hours</h3>
+        <p>Mon - Sat: 9:00 AM – 7:00 PM</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM -->
+  <section class="contact-form">
+    <h2>Send Us a Message</h2>
+    <form>
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="text" name="subject" placeholder="Subject" required>
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <script>
+    // Animate boxes and form on scroll
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.info-box, form').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
+
+  </main>
+
+  <!-- ✅ Footer -->
+  <footer>
+    <div class="footer-logo">
+      <img src="https://zebrocredd.github.io/Docs/zebrocredd%20logo.jpg" alt="ZebroCredd Logo">
+      <div class="social-icons">
+        <a href="https://www.facebook.com/share/1BYHHL6vXH/"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/zebrocredd?igsh=MWYyc29oMnliY2Z3OQ=="><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/+919855541715"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <h3>Useful Links</h3>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="education-loans.html">Education Loan</a></li>
+        <li><a href="vehicle-loans.html">Vehicle Loan</a></li>
+        <li><a href="lap-loans.html">LAP Loan</a></li>
+        <li><a href="business-loans.html">Business Loan</a></li>
+        <li><a href="life-insurance.html">Life Insurance</a></li>
+        <li><a href="vehicle-insurance.html">Vehicle Insurance</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h3>Contact Us</h3>
+      <p><i class="fas fa-phone"></i> +91 98555 41715</p>
+      <p><i class="fas fa-envelope"></i> info@zebrocredd.in</p>
+      <p><i class="fas fa-map-marker-alt"></i> Dwarka Pillar,</p>
+      </i> Near SBI Bank, Delhi(110037), INDIA</p>
+    </div>
+
+    <!-- ✅ Highlighted Apply Now -->
+    <div class="footer-apply">
+      <a href="apply.html">Apply Now</a>
+    </div>
+  </footer>
+
+  <div class="footer-bottom">
+    © 2025 ZebroCredd. All Rights Reserved.
+  </div>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("show");
+    }
+  </script>
+</body>
+</html>
